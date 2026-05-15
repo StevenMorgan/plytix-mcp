@@ -18,6 +18,7 @@ import { registerVariantTools } from './tools/variants.js';
 import { registerIdentifierTools } from './tools/identifier.js';
 import { registerProductAttributeTools } from './tools/product-attributes.js';
 import { registerRelationshipTools } from './tools/relationships.js';
+import { registerDestructiveProductTools } from './tools/destructive.js';
 
 async function main() {
   const server = new McpServer({
@@ -32,6 +33,13 @@ async function main() {
     console.error('[plytix-mcp] PLYTIX_READ_ONLY=1 set; destructive tools will not be registered.');
   }
 
+  const allowDelete = !readOnly && process.env.PLYTIX_ALLOW_DELETE === '1';
+  if (allowDelete) {
+    console.error(
+      '[plytix-mcp] PLYTIX_ALLOW_DELETE=1 set; HARD-DELETE tools are ENABLED. Deletions are irreversible.'
+    );
+  }
+
   // Register all tools
   registerProductTools(server, client, { readOnly });
   registerFamilyTools(server, client, { readOnly });
@@ -41,6 +49,7 @@ async function main() {
   registerVariantTools(server, client, { readOnly });
   if (!readOnly) registerProductAttributeTools(server, client);
   if (!readOnly) registerRelationshipTools(server, client);
+  if (allowDelete) registerDestructiveProductTools(server, client);
   registerIdentifierTools(server);
 
   const transport = new StdioServerTransport();

@@ -523,6 +523,19 @@ export class PlytixClient {
   }
 
   /**
+   * Permanently delete a product. This is a hard delete — the product and all
+   * of its inline data are removed from the account. Linked assets/categories
+   * survive, but variants and relationship rows pointing to this product are
+   * dropped. Use with extreme care.
+   */
+  async deleteProduct(productId: string): Promise<PlytixResult<void>> {
+    return this.request<void>(
+      `/api/v2/products/${encodeURIComponent(productId)}`,
+      { method: 'DELETE' }
+    );
+  }
+
+  /**
    * Link an existing asset to a product.
    * Optionally attach it to a media attribute label.
    */

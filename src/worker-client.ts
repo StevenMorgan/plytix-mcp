@@ -269,6 +269,7 @@ export class WorkerPlytixClient {
   async updateProduct(
     productId: string,
     data: {
+      sku?: string;
       label?: string;
       status?: string;
       attributes?: Record<string, unknown>;
@@ -277,6 +278,12 @@ export class WorkerPlytixClient {
     return this.request<PlytixProduct>(`/api/v2/products/${encodeURIComponent(productId)}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
+    });
+  }
+
+  async deleteProduct(productId: string): Promise<PlytixResult<void>> {
+    return this.request<void>(`/api/v2/products/${encodeURIComponent(productId)}`, {
+      method: 'DELETE',
     });
   }
 

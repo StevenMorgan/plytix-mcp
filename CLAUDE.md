@@ -42,6 +42,7 @@ src/
     categories.ts       # Category search + product category link tools
     variants.ts         # Variant lifecycle tools
     relationships.ts    # Relationship discovery + product relationship write tools
+    destructive.ts      # Hard-delete tools (own group, gated by PLYTIX_ALLOW_DELETE=1)
   supplyline/           # Supplyline-specific customizations
     index.ts            # Supplyline tool registration
 ```
@@ -104,6 +105,14 @@ src/
 | `relationships_unlink_product` | Unlink one related product row |
 | `relationships_set_quantity` | Update quantity for one related product row |
 
+### Destructive Operations
+
+Registered in their own group and **off by default**. Enabled only when `PLYTIX_ALLOW_DELETE=1` is set (and `PLYTIX_READ_ONLY` is unset).
+
+| Tool | Description |
+|------|-------------|
+| `products_delete` | Hard-delete a product. Irreversible. Requires `confirm: "DELETE"`. |
+
 ## Smart Lookup System
 
 The lookup system automatically detects identifier types and uses staged search strategies:
@@ -147,6 +156,8 @@ Optional:
 - `PLYTIX_AUTH_URL` - Auth endpoint (default: https://auth.plytix.com/auth/api/get-token)
 - `PLYTIX_MPN_LABELS` - JSON array of MPN attribute labels
 - `PLYTIX_MNO_LABELS` - JSON array of MNO attribute labels
+- `PLYTIX_READ_ONLY=1` - Skip registration of all write/destructive tools
+- `PLYTIX_ALLOW_DELETE=1` - Register hard-delete tools (off by default; ignored when `PLYTIX_READ_ONLY=1`)
 
 ## Plytix API Notes
 

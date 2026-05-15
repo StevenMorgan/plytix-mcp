@@ -417,6 +417,11 @@ const TOOLS: ToolDefinition[] = [
       type: 'object',
       properties: {
         product_id: { type: 'string', description: 'The product ID to update' },
+        sku: {
+          type: 'string',
+          description:
+            'New product SKU (must be unique across the account; changing this rewrites the product identifier)',
+        },
         label: { type: 'string', description: 'New product label/name' },
         status: { type: 'string', description: 'New product status' },
         attributes: {
@@ -440,6 +445,23 @@ const TOOLS: ToolDefinition[] = [
         },
       },
       required: ['product_id', 'family_id'],
+    },
+  },
+  {
+    name: 'products_delete',
+    description:
+      'WARNING: PERMANENTLY DELETES a product (hard delete via DELETE /api/v2/products/{id}). The product, its inline attribute values, its variants, and relationship rows pointing to it are removed. Linked assets/categories survive (only the link is broken). There is no undo. Prefer archiving via products_update unless deletion is required. The `confirm` parameter must equal the literal string "DELETE" or the call is refused.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        product_id: { type: 'string', description: 'The product ID to permanently delete' },
+        confirm: {
+          type: 'string',
+          enum: ['DELETE'],
+          description: 'Must be the literal string "DELETE" to authorize the deletion',
+        },
+      },
+      required: ['product_id', 'confirm'],
     },
   },
   {
@@ -1454,11 +1476,13 @@ const toolHandlers: Record<string, ToolHandler> = {
 
   async products_update(args, client) {
     const productId = args.product_id as string;
+    const sku = args.sku as string | undefined;
     const label = args.label as string | undefined;
     const status = args.status as string | undefined;
     const attributes = args.attributes as Record<string, unknown> | undefined;
 
     const data: Parameters<typeof client.updateProduct>[1] = {};
+    if (sku !== undefined) data.sku = sku;
     if (label !== undefined) data.label = label;
     if (status !== undefined) data.status = status;
     if (attributes !== undefined) data.attributes = attributes;
@@ -1530,6 +1554,53 @@ const toolHandlers: Record<string, ToolHandler> = {
         },
       ],
     };
+  },
+
+  async products_delete(args, client) {
+    const productId = args.product_id as string;
+    const confirm = args.confirm as string | undefined;
+
+    if (confirm !== 'DELETE') {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: 'Refusing to delete: the `confirm` parameter must be the literal string "DELETE".',
+          },
+        ],
+        isError: true,
+      };
+    }
+
+    try {
+      await client.deleteProduct(productId);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                success: true,
+                deleted_id: productId,
+                warning: 'Product permanently deleted. This cannot be undone.',
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error deleting product: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          },
+        ],
+        isError: true,
+      };
+    }
   },
 
   async assets_get(args, client) {
