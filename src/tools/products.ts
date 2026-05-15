@@ -474,29 +474,24 @@ export function registerProductTools(server: McpServer, client: PlytixClient) {
     product_id: string;
     label?: string;
     status?: string;
-    attributes?: Record<string, unknown>;
   }>(
     server,
     'products_update',
     {
       title: 'Update Product',
-      description: 'Update a product.',
+      description:
+        "Partial update of a product's label and/or status. For attribute changes, use products_set_attribute (which validates the value against the attribute's type and allowed options) — do NOT pass attributes to this tool.",
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to update'),
         label: z.string().optional().describe('New product label/name'),
         status: z.string().optional().describe('New product status'),
-        attributes: z
-          .record(z.unknown())
-          .optional()
-          .describe('Attributes to update (use attribute labels as keys, null to clear)'),
       },
     },
-    async ({ product_id, label, status, attributes }) => {
+    async ({ product_id, label, status }) => {
       try {
         const data: Parameters<typeof client.updateProduct>[1] = {};
         if (label !== undefined) data.label = label;
         if (status !== undefined) data.status = status;
-        if (attributes !== undefined) data.attributes = attributes;
 
         if (Object.keys(data).length === 0) {
           return {
