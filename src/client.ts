@@ -510,6 +510,7 @@ export class PlytixClient {
   async updateProduct(
     productId: string,
     data: {
+      sku?: string;
       label?: string;
       status?: string;
       attributes?: Record<string, unknown>;

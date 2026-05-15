@@ -482,6 +482,7 @@ export function registerProductTools(
 
   registerTool<{
     product_id: string;
+    sku?: string;
     label?: string;
     status?: string;
   }>(
@@ -490,16 +491,22 @@ export function registerProductTools(
     {
       title: 'Update Product',
       description:
-        "Partial update of a product's label and/or status. For attribute changes, use products_set_attribute (which validates the value against the attribute's type and allowed options) — do NOT pass attributes to this tool.",
+        "Partial update of a product's SKU, label, and/or status. SKU must remain unique across the account; changing it rewrites the product's primary identifier and may break external integrations that key on the old value. For attribute changes, use products_set_attribute (which validates the value against the attribute's type and allowed options) — do NOT pass attributes to this tool.",
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to update'),
+        sku: z
+          .string()
+          .min(1)
+          .optional()
+          .describe('New product SKU (must be unique across the account; changing this rewrites the product identifier)'),
         label: z.string().optional().describe('New product label/name'),
         status: z.string().optional().describe('New product status'),
       },
     },
-    async ({ product_id, label, status }) => {
+    async ({ product_id, sku, label, status }) => {
       try {
         const data: Parameters<typeof client.updateProduct>[1] = {};
+        if (sku !== undefined) data.sku = sku;
         if (label !== undefined) data.label = label;
         if (status !== undefined) data.status = status;
 
