@@ -30,6 +30,7 @@ export function registerFamilyTools(
         page: z.number().int().positive().default(1).describe('Page number'),
         page_size: z.number().int().positive().max(100).default(25).describe('Results per page'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ query, page, page_size }) => {
       try {
@@ -85,6 +86,7 @@ export function registerFamilyTools(
       inputSchema: {
         family_id: z.string().min(1).describe('The product family ID'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ family_id }) => {
       try {
@@ -294,6 +296,7 @@ export function registerFamilyTools(
       inputSchema: {
         family_id: z.string().min(1).describe('The product family ID'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ family_id }) => {
       try {
@@ -342,6 +345,7 @@ export function registerFamilyTools(
       inputSchema: {
         family_id: z.string().min(1).describe('The product family ID'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ family_id }) => {
       try {

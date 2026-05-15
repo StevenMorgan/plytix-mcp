@@ -39,6 +39,7 @@ export function registerProductTools(
           .describe('Explicit identifier type (auto-detected if not provided)'),
         limit: z.number().int().positive().max(20).default(5).describe('Max results to return'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ identifier, type, limit }) => {
       try {
@@ -114,6 +115,7 @@ export function registerProductTools(
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to fetch'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ product_id }) => {
       try {
@@ -156,6 +158,7 @@ export function registerProductTools(
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to fetch'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ product_id }) => {
       try {
@@ -269,6 +272,7 @@ export function registerProductTools(
           .optional(),
         sort: z.any().optional().describe('Sorting options'),
       },
+      annotations: { readOnlyHint: true },
     },
     async (args) => {
       try {
@@ -331,6 +335,7 @@ export function registerProductTools(
         fuzzy_search: z.string().optional().describe('Fuzzy text search across all fields'),
         limit: z.number().int().positive().max(50).default(10).describe('Max results'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ sku, mpn, mno, gtin, label, fuzzy_search, limit }) => {
       try {

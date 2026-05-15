@@ -16,6 +16,13 @@ export interface ToolDefinition {
   title?: string;
   description: string;
   inputSchema: ZodRawShape;
+  annotations?: {
+    title?: string;
+    readOnlyHint?: boolean;
+    destructiveHint?: boolean;
+    idempotentHint?: boolean;
+    openWorldHint?: boolean;
+  };
 }
 
 /**

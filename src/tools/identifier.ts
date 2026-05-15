@@ -40,6 +40,7 @@ export function registerIdentifierTools(server: McpServer) {
       inputSchema: {
         value: z.string().describe('The identifier value to analyze'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ value }) => {
       const result = detectIdentifierType(value);
@@ -77,6 +78,7 @@ export function registerIdentifierTools(server: McpServer) {
       inputSchema: {
         value: z.string().describe('The identifier value to normalize'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ value }) => {
       const normalized = normalize(value);
@@ -119,6 +121,7 @@ export function registerIdentifierTools(server: McpServer) {
           .optional()
           .describe('Specific fields to check (defaults to sku, label, gtin)'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ identifier, product_data, fields }) => {
       const fieldsToCheck = fields ?? ['sku', 'label', 'gtin'];

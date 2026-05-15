@@ -24,6 +24,7 @@ export function registerVariantTools(
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to fetch variants for'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ product_id }) => {
       try {

@@ -23,6 +23,7 @@ export function registerRelationshipTools(server: McpServer, client: PlytixClien
       inputSchema: {
         relationship_id: z.string().min(1).describe('The relationship definition ID'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ relationship_id }) => {
       try {
@@ -73,6 +74,7 @@ export function registerRelationshipTools(server: McpServer, client: PlytixClien
           .optional()
           .describe('Pagination options'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ query, pagination }) => {
       try {

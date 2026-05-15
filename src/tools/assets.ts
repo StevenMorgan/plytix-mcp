@@ -40,6 +40,7 @@ export function registerAssetTools(
       inputSchema: {
         asset_id: z.string().min(1).describe('The asset ID'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ asset_id }) => {
       try {
@@ -104,6 +105,7 @@ export function registerAssetTools(
           .describe('Pagination options'),
         sort: z.unknown().optional().describe('Optional sort payload'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ filters, pagination, sort }) => {
       try {
@@ -218,6 +220,7 @@ export function registerAssetTools(
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to fetch assets for'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ product_id }) => {
       try {

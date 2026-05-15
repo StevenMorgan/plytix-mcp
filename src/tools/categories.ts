@@ -31,6 +31,7 @@ export function registerCategoryTools(
           .optional()
           .describe('Pagination options'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ query, pagination }) => {
       try {
@@ -78,6 +79,7 @@ export function registerCategoryTools(
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID to fetch categories for'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ product_id }) => {
       try {

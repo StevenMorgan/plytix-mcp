@@ -27,6 +27,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
           .default(true)
           .describe('Include dropdown/multiselect options in response'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ include_options }) => {
       try {
@@ -79,6 +80,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
           .string()
           .describe('Attribute label (snake_case identifier, e.g., "head_material")'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ label }) => {
       try {
@@ -141,6 +143,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
           .string()
           .describe('Attribute label (snake_case identifier, e.g., "head_material")'),
       },
+      annotations: { readOnlyHint: true },
     },
     async ({ label }) => {
       try {
@@ -194,6 +197,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
       title: 'Get Search Filters (Deprecated)',
       description: 'Deprecated alias for product filters.',
       inputSchema: {},
+      annotations: { readOnlyHint: true },
     },
     async () => {
       try {
@@ -243,6 +247,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
       title: 'Product Search Filters',
       description: 'List product search filters.',
       inputSchema: {},
+      annotations: { readOnlyHint: true },
     },
     async () => {
       try {
@@ -289,6 +294,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
       title: 'Asset Search Filters',
       description: 'List asset search filters.',
       inputSchema: {},
+      annotations: { readOnlyHint: true },
     },
     async () => {
       try {
@@ -335,6 +341,7 @@ export function registerAttributeTools(server: McpServer, client: PlytixClient) 
       title: 'Relationship Search Filters',
       description: 'List relationship search filters.',
       inputSchema: {},
+      annotations: { readOnlyHint: true },
     },
     async () => {
       try {
