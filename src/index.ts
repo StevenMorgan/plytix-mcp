@@ -27,15 +27,20 @@ async function main() {
 
   const client = new PlytixClient();
 
+  const readOnly = process.env.PLYTIX_READ_ONLY === '1';
+  if (readOnly) {
+    console.error('[plytix-mcp] PLYTIX_READ_ONLY=1 set; destructive tools will not be registered.');
+  }
+
   // Register all tools
-  registerProductTools(server, client);
-  registerFamilyTools(server, client);
+  registerProductTools(server, client, { readOnly });
+  registerFamilyTools(server, client, { readOnly });
   registerAttributeTools(server, client);
-  registerAssetTools(server, client);
-  registerCategoryTools(server, client);
-  registerVariantTools(server, client);
-  registerProductAttributeTools(server, client);
-  registerRelationshipTools(server, client);
+  registerAssetTools(server, client, { readOnly });
+  registerCategoryTools(server, client, { readOnly });
+  registerVariantTools(server, client, { readOnly });
+  if (!readOnly) registerProductAttributeTools(server, client);
+  if (!readOnly) registerRelationshipTools(server, client);
   registerIdentifierTools(server);
 
   const transport = new StdioServerTransport();

@@ -9,7 +9,11 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { PlytixClient } from '../client.js';
 import { registerTool } from './register.js';
 
-export function registerVariantTools(server: McpServer, client: PlytixClient) {
+export function registerVariantTools(
+  server: McpServer,
+  client: PlytixClient,
+  options?: { readOnly?: boolean }
+) {
   // LIST product variants
   registerTool<{ product_id: string }>(
     server,
@@ -42,6 +46,7 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
   );
 
   // RESYNC variant attributes to parent
+  if (!options?.readOnly) {
   registerTool<{ parent_product_id: string; attribute_labels: string[]; variant_ids: string[] }>(
     server,
     'variants_resync',
@@ -93,8 +98,10 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // CREATE variant under parent
+  if (!options?.readOnly) {
   registerTool<{
     parent_product_id: string;
     sku: string;
@@ -157,8 +164,10 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // LINK existing product as variant
+  if (!options?.readOnly) {
   registerTool<{ parent_product_id: string; variant_product_id: string }>(
     server,
     'variants_link',
@@ -207,8 +216,10 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // UNLINK variant from parent (product is not deleted)
+  if (!options?.readOnly) {
   registerTool<{ parent_product_id: string; variant_product_id: string }>(
     server,
     'variants_unlink',
@@ -254,4 +265,5 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 }

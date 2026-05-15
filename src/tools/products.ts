@@ -13,7 +13,11 @@ import { PlytixLookup } from '../lookup/index.js';
 import { registerTool } from './register.js';
 import type { IdentifierType } from '../lookup/identifier.js';
 
-export function registerProductTools(server: McpServer, client: PlytixClient) {
+export function registerProductTools(
+  server: McpServer,
+  client: PlytixClient,
+  options?: { readOnly?: boolean }
+) {
   // Create lookup instance for smart search
   const lookup = new PlytixLookup(client);
 
@@ -383,6 +387,7 @@ export function registerProductTools(server: McpServer, client: PlytixClient) {
     }
   );
 
+  if (!options?.readOnly) {
   // ─────────────────────────────────────────────────────────────
   // products.create - Create a new product
   // ─────────────────────────────────────────────────────────────
@@ -604,4 +609,5 @@ export function registerProductTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 }

@@ -9,7 +9,11 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { PlytixClient } from '../client.js';
 import { registerTool } from './register.js';
 
-export function registerCategoryTools(server: McpServer, client: PlytixClient) {
+export function registerCategoryTools(
+  server: McpServer,
+  client: PlytixClient,
+  options?: { readOnly?: boolean }
+) {
   // SEARCH categories
   registerTool<{ query?: string; pagination?: { page?: number; page_size?: number } }>(
     server,
@@ -96,6 +100,7 @@ export function registerCategoryTools(server: McpServer, client: PlytixClient) {
   );
 
   // LINK category to product
+  if (!options?.readOnly) {
   registerTool<{ product_id: string; category_id: string }>(
     server,
     'categories_link',
@@ -143,8 +148,10 @@ export function registerCategoryTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // UNLINK category from product
+  if (!options?.readOnly) {
   registerTool<{ product_id: string; category_id: string }>(
     server,
     'categories_unlink',
@@ -190,4 +197,5 @@ export function registerCategoryTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 }

@@ -10,7 +10,11 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { PlytixClient } from '../client.js';
 import { registerTool } from './register.js';
 
-export function registerFamilyTools(server: McpServer, client: PlytixClient) {
+export function registerFamilyTools(
+  server: McpServer,
+  client: PlytixClient,
+  options?: { readOnly?: boolean }
+) {
   // ─────────────────────────────────────────────────────────────
   // families.list - Search/list product families
   // ─────────────────────────────────────────────────────────────
@@ -114,6 +118,7 @@ export function registerFamilyTools(server: McpServer, client: PlytixClient) {
   // families_create - Create a product family
   // ─────────────────────────────────────────────────────────────
 
+  if (!options?.readOnly) {
   registerTool<{ name: string; parent_id?: string }>(
     server,
     'families_create',
@@ -162,11 +167,13 @@ export function registerFamilyTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // ─────────────────────────────────────────────────────────────
   // families_link_attribute - Link one or more attributes
   // ─────────────────────────────────────────────────────────────
 
+  if (!options?.readOnly) {
   registerTool<{ family_id: string; attribute_labels: string[] }>(
     server,
     'families_link_attribute',
@@ -216,11 +223,13 @@ export function registerFamilyTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // ─────────────────────────────────────────────────────────────
   // families_unlink_attribute - Unlink one or more attributes
   // ─────────────────────────────────────────────────────────────
 
+  if (!options?.readOnly) {
   registerTool<{ family_id: string; attribute_labels: string[] }>(
     server,
     'families_unlink_attribute',
@@ -270,6 +279,7 @@ export function registerFamilyTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // ─────────────────────────────────────────────────────────────
   // families_list_attributes - Directly linked family attributes

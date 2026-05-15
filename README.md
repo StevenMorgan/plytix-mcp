@@ -109,6 +109,12 @@ npm run test:worker        # Test the worker endpoints
 
 For detailed setup instructions, see [docs/remote-setup.md](docs/remote-setup.md).
 
+### Read-only mode
+
+Set `PLYTIX_READ_ONLY=1` to skip registration of all destructive tools (`*_create`, `*_update`, `*_link`, `*_unlink`, `*_assign_family`, `*_resync`, `*_set_attribute`, `*_clear_attribute`). With the flag set, the server registers only read tools — useful for environments where write access to a production Plytix instance is not yet trusted.
+
+This flag is specific to this fork (`StevenMorgan/plytix-mcp`) and is not in the upstream Supplyline/plytix-mcp repository.
+
 ## Available Tools
 
 ### Product Tools

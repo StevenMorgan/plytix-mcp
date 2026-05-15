@@ -25,7 +25,11 @@ const filterOperatorSchema = z.enum([
   'text_search',
 ]);
 
-export function registerAssetTools(server: McpServer, client: PlytixClient) {
+export function registerAssetTools(
+  server: McpServer,
+  client: PlytixClient,
+  options?: { readOnly?: boolean }
+) {
   // GET single asset by ID
   registerTool<{ asset_id: string }>(
     server,
@@ -139,6 +143,7 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
   );
 
   // UPDATE asset metadata (filename and categories only)
+  if (!options?.readOnly) {
   registerTool<{ asset_id: string; filename?: string; categories?: string[] }>(
     server,
     'assets_update',
@@ -201,6 +206,7 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // LIST product assets
   registerTool<{ product_id: string }>(
@@ -234,6 +240,7 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
   );
 
   // LINK asset to product
+  if (!options?.readOnly) {
   registerTool<{ product_id: string; asset_id: string; attribute_label?: string }>(
     server,
     'assets_link',
@@ -284,8 +291,10 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 
   // UNLINK asset from product
+  if (!options?.readOnly) {
   registerTool<{ product_id: string; asset_id: string }>(
     server,
     'assets_unlink',
@@ -331,4 +340,5 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
       }
     }
   );
+  }
 }
