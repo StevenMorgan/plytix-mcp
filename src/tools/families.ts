@@ -226,7 +226,7 @@ export function registerFamilyTools(server: McpServer, client: PlytixClient) {
     'families_unlink_attribute',
     {
       title: 'Unlink Attributes from Family',
-      description: 'Unlink attributes from a family.',
+      description: 'Unlink one or more attributes from a family. WARNING: Removes the attributes from every product in the family by removing inherited values.',
       inputSchema: {
         family_id: z.string().min(1).describe('The product family ID'),
         attribute_labels: z

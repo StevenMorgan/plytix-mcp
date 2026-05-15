@@ -556,7 +556,7 @@ export function registerProductTools(server: McpServer, client: PlytixClient) {
     'products_assign_family',
     {
       title: 'Assign Product Family',
-      description: 'Assign or unassign a family.',
+      description: "Assign or unassign a product family. WARNING: Changing a product's family causes inherited attribute values to be lost. Use only when intentionally restructuring a product's family membership.",
       inputSchema: {
         product_id: z.string().min(1).describe('The product ID'),
         family_id: z

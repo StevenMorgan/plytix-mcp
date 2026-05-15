@@ -144,7 +144,7 @@ export function registerAssetTools(server: McpServer, client: PlytixClient) {
     'assets_update',
     {
       title: 'Update Asset',
-      description: 'Update asset filename or categories.',
+      description: "Update the filename and/or categories of one asset. NOTE: The categories array fully replaces the asset's existing categories — pass the complete desired list, not a delta.",
       inputSchema: {
         asset_id: z.string().min(1).describe('The asset ID'),
         filename: z.string().optional().describe('New filename for the asset'),

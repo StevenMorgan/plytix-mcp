@@ -47,7 +47,7 @@ export function registerVariantTools(server: McpServer, client: PlytixClient) {
     'variants_resync',
     {
       title: 'Resync Variants',
-      description: 'Resync variant inheritance from the parent.',
+      description: 'Reset specified attribute values on specified variants to inherit from the parent product. WARNING: Discards explicitly-set attribute values on the listed variants. Cannot be undone.',
       inputSchema: {
         parent_product_id: z.string().min(1).describe('The parent product ID containing the variants'),
         attribute_labels: z
